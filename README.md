@@ -51,10 +51,11 @@ NEXT_PUBLIC_API_URL=http://127.0.0.1:5000
 
 ## Smart Prefetching
 The backend tracks which countries have been shown (`played: true`).
-When fewer than 40 unplayed countries remain, Gemini automatically
+When fewer than 30 unplayed countries remain, Gemini automatically
 generates 20 new countries in a single API call and saves them to MongoDB.
 Gemini receives the list of existing countries to avoid duplicates.
 If Gemini is unavailable, the app continues using the pre-seeded dataset.
 On each page load, all countries are reset so every user starts fresh.
 New countries from Gemini always start with played: false.
 The database is capped at 300 countries to prevent unlimited growth.
+The data now has 35 questions.  
