@@ -60,6 +60,12 @@ in MongoDB to track shown countries, and the bulk generation prompt.
 I identified the inefficiency. Claude updated the prompt to return
 a JSON array of countries in one call.
 
+**Session reset:**
+> "Every time a user opens the site, reset all played countries so they start fresh."
+
+I decided on option 1 (global reset) over per-user sessions to keep it simple.
+Claude implemented the /api/reset endpoint and the useEffect call in the frontend.
+
 ---
 
 ## What AI Generated

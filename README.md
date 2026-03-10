@@ -55,3 +55,6 @@ When fewer than 40 unplayed countries remain, Gemini automatically
 generates 15 new countries in a single API call and saves them to MongoDB.
 Gemini receives the list of existing countries to avoid duplicates.
 If Gemini is unavailable, the app continues using the pre-seeded dataset.
+On each page load, all countries are reset so every user starts fresh.
+New countries from Gemini always start with played: false.
+The database is capped at 300 countries to prevent unlimited growth.
