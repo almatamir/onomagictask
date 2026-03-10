@@ -16,18 +16,20 @@ def init_db():
     print("Connected to MongoDB!")
 
 def get_random_country():
-    countries = list(db.countries.find({}, {'_id': 0}))
+    countries = list(db.countries.find({'played': {'$ne': True}}, {'_id': 0}))
     if not countries:
         return None
-    return random.choice(countries)
+    country = random.choice(countries)
+    db.countries.update_one({'name': country['name']}, {'$set': {'played': True}})
+    return country
 
 def save_country(country_data):
     existing = db.countries.find_one({'name': country_data['name']})
     if not existing:
         db.countries.insert_one(country_data)
 
-def count_countries():
-    return db.countries.count_documents({})
+def count_countries_left():
+   return db.countries.count_documents({'played': {'$ne': True}})
 
 def get_existing_country_names():
     return [c['name'] for c in db.countries.find({}, {'name': 1, '_id': 0})]

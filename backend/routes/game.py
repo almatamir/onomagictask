@@ -1,11 +1,11 @@
 from flask import Blueprint, jsonify, request
-from services.database import get_random_country, save_country, count_countries, get_existing_country_names
+from services.database import get_random_country, save_country, count_countries_left, get_existing_country_names
 from services.gemini import generate_multiple_countries
 
 game_bp = Blueprint('game', __name__)
 
 MAX_COUNTRIES = 300
-REFILL_THRESHOLD = 30
+REFILL_THRESHOLD = 20
 REFILL_AMOUNT = 15
 
 @game_bp.route('/country', methods=['GET'])
@@ -25,7 +25,7 @@ def check_guess():
     country_id = data.get('id', '').strip().lower()
     correct = user_guess == country_id
 
-    if count_countries() < REFILL_THRESHOLD and not is_refilling:
+    if count_countries_left() < REFILL_THRESHOLD and not is_refilling:
         is_refilling = True
         existing_names = get_existing_country_names()
         new_countries = generate_multiple_countries(REFILL_AMOUNT, existing_names)
