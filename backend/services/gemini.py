@@ -1,14 +1,14 @@
-import google.generativeai as genai
-from dotenv import load_dotenv
+import requests
 import os
 import json
+from dotenv import load_dotenv
 
 load_dotenv()
 
 def generate_country():
     try:
-        genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        api_key = os.getenv('GEMINI_API_KEY')
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={api_key}"
         
         prompt = """
         Generate a random country with exactly 3 clues.
@@ -17,17 +17,24 @@ def generate_country():
             "name": "Country Name",
             "clues": [
                 "Clue 1 about the country",
-                "Clue 2 about the country", 
+                "Clue 2 about the country",
                 "Clue 3 about the country"
             ],
             "source": "gemini"
         }
         Make the clues interesting but not too easy.
-        Do not pick the same country twice in a row.
         """
         
-        response = model.generate_content(prompt)
-        text = response.text.strip()
+        body = {
+            "contents": [{
+                "parts": [{"text": prompt}]
+            }]
+        }
+        
+        response = requests.post(url, json=body)
+        response_json = response.json()
+        print("Gemini response:", response_json)
+        text = response_json['candidates'][0]['content']['parts'][0]['text'].strip()
         
         if '```' in text:
             text = text.split('```')[1]

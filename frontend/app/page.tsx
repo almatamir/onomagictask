@@ -13,7 +13,7 @@ export default function Home() {
     setResult('');
     setGuess('');
     setIsCorrect(null);
-    const res = await fetch('http://127.0.0.1:5000/api/country');
+    const res = await fetch('http://127.0.0.1:5000/api/country?new=true');
     const data = await res.json();
     setClues(data.clues);
     setCountryId(data.id);
