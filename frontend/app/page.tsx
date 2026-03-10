@@ -63,12 +63,14 @@ export default function Home() {
           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 mb-3"
         />
 
-        <button
-          onClick={submitGuess}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition mb-3"
-        >
-          Submit Guess
-        </button>
+        {!result && (
+          <button
+            onClick={submitGuess}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition mb-3"
+          >
+            Submit Guess
+          </button>
+        )}
 
         {result && (
           <div className={`text-center font-semibold py-3 rounded-xl mb-3 ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
@@ -81,7 +83,7 @@ export default function Home() {
           onClick={fetchCountry}
           className="w-full border border-gray-200 hover:bg-gray-50 text-gray-500 py-3 rounded-xl transition"
         >
-          Next Country →
+          Next Question →
         </button>
 
       </div>
