@@ -27,6 +27,7 @@ def get_random_country():
 def save_country(country_data):
     existing = db.countries.find_one({'name': country_data['name']})
     if not existing:
+        country_data['played'] = False
         db.countries.insert_one(country_data)
 
 def count_countries_left():
