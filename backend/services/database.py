@@ -22,7 +22,12 @@ def get_random_country():
     return random.choice(countries)
 
 def save_country(country_data):
-
     existing = db.countries.find_one({'name': country_data['name']})
     if not existing:
         db.countries.insert_one(country_data)
+
+def count_countries():
+    return db.countries.count_documents({})
+
+def get_existing_country_names():
+    return [c['name'] for c in db.countries.find({}, {'name': 1, '_id': 0})]
