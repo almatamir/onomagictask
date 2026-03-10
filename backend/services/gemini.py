@@ -1,17 +1,17 @@
-import requests
 import os
-import json
 from dotenv import load_dotenv
+from google import genai
+import json
 
 load_dotenv()
 
 def generate_country():
     try:
-        api_key = os.getenv('GEMINI_API_KEY')
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={api_key}"
+        client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
         
         prompt = """
         Generate a random country with exactly 3 clues.
+        Each clue must be SHORT: 4 - 10 words.
         Return ONLY a JSON object in this exact format, nothing else:
         {
             "name": "Country Name",
@@ -25,16 +25,12 @@ def generate_country():
         Make the clues interesting but not too easy.
         """
         
-        body = {
-            "contents": [{
-                "parts": [{"text": prompt}]
-            }]
-        }
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
         
-        response = requests.post(url, json=body)
-        response_json = response.json()
-        print("Gemini response:", response_json)
-        text = response_json['candidates'][0]['content']['parts'][0]['text'].strip()
+        text = response.text.strip()
         
         if '```' in text:
             text = text.split('```')[1]

@@ -8,14 +8,15 @@ game_bp = Blueprint('game', __name__)
 def get_country():
     use_gemini = request.args.get('new', 'false') == 'true'
     
-    if use_gemini:
-        country = generate_country()
-        if country:
-            save_country(country)
-        else:
-            country = get_random_country()
-    else:
-        country = get_random_country()
+    # if use_gemini:
+    #     country = generate_country()
+    #     if country:
+    #         save_country(country)
+    #     else:
+    #         country = get_random_country()
+    # else:
+    #     country = get_random_country()
+    country = get_random_country()
 
     if not country:
         return jsonify({'error': 'No countries available'}), 500
