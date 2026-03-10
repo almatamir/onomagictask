@@ -15,13 +15,6 @@ and made all the key decisions myself.
 
 ## Example Prompts
 
-**Planning the architecture:**
-> "I want to build a Guess The Country app with Gemini API and MongoDB.
-> Let's plan the architecture together before writing any code."
-
-Claude suggested options. I chose Flask + Next.js to combine
-Python (which I know) with Next.js (which I wanted to learn).
-
 **Deciding on the database strategy:**
 > "I want to save 30 countries in MongoDB as a backup in case the API key runs out."
 
@@ -47,7 +40,7 @@ Claude suggested the certifi fix. I applied it to both `database.py` and `seed.p
 
 **Smart prefetching:**
 > "I want the backend to automatically generate new countries from Gemini
-> when the unplayed count drops below 50% of the max."
+> when the unplayed count drops below 20."
 
 I came up with the prefetching concept. Claude helped implement
 the `is_refilling` flag to prevent duplicate API calls, the `played` field
@@ -69,36 +62,11 @@ Claude implemented the /api/reset endpoint and the useEffect call in the fronten
 ---
 
 ## What AI Generated
-- `backend/app.py` - Flask server setup
-- `backend/routes/game.py` - API endpoints and refill logic
-- `backend/services/database.py` - MongoDB connection and queries
-- `backend/services/gemini.py` - Gemini bulk generation
-- `backend/seed.py` - database seeding script
-- `frontend/app/page.tsx` - Game UI
+- `backend/app.py` - Flask server setup, blueprint registration
+- `backend/routes/game.py` - GET /api/country, POST /api/guess, POST /api/reset endpoints
+- `backend/services/database.py` - MongoDB connection
+- `backend/services/gemini.py` - API call to generate countries
+- `backend/seed.py` - one-time script to seed 30 countries into MongoDB
+- `frontend/app/page.tsx` - game UI, display, screen with score, session reset on page load
 
 ---
-
-## What I Modified Myself
-- Fixed MongoDB SSL certificate error on Mac (`tlsCAFile=certifi.where()`)
-- Upgraded Python from 3.8 to 3.11 to support google-genai SDK
-- Switched Gemini integration from HTTP requests to google-genai SDK
-- Debugged and tested each endpoint manually in the browser
-- Fixed git repository conflicts during initial setup
-- Identified prefetching concept and bulk generation optimization
-- Made all key architectural decisions throughout the process
-- Decided to track played countries with a `played` field in MongoDB
-
----
-
-## AI Configuration
-See `.claude.md` in the repository root.
-
-I created this file to set consistent rules for Claude across the project:
-- No Hebrew in code
-- Minimum changes when necessary
-- Explain before writing
-- Work one file at a time
-- Never rewrite working code
-
-This saved time because I didn't need to repeat the same instructions
-in every conversation.

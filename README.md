@@ -3,7 +3,7 @@
 A web application where users guess a country based on 3 clues.
 
 ## Live Demo
-[https://prolific-empathy-production.up.railway.app](https://prolific-empathy-production.up.railway.app)
+[https://prolific-empathy-production.up.railway.app]
 
 ## Tech Stack
 - **Frontend:** Next.js + TypeScript + Tailwind CSS
@@ -52,7 +52,7 @@ NEXT_PUBLIC_API_URL=http://127.0.0.1:5000
 ## Smart Prefetching
 The backend tracks which countries have been shown (`played: true`).
 When fewer than 40 unplayed countries remain, Gemini automatically
-generates 15 new countries in a single API call and saves them to MongoDB.
+generates 20 new countries in a single API call and saves them to MongoDB.
 Gemini receives the list of existing countries to avoid duplicates.
 If Gemini is unavailable, the app continues using the pre-seeded dataset.
 On each page load, all countries are reset so every user starts fresh.
