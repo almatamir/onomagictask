@@ -18,7 +18,8 @@ def init_db():
 def get_random_country():
     countries = list(db.countries.find({'played': {'$ne': True}}, {'_id': 0}))
     if not countries:
-        return None
+        reset_played()
+        countries = list(db.countries.find({'played': {'$ne': True}}, {'_id': 0}))
     country = random.choice(countries)
     db.countries.update_one({'name': country['name']}, {'$set': {'played': True}})
     return country
@@ -33,3 +34,9 @@ def count_countries_left():
 
 def get_existing_country_names():
     return [c['name'] for c in db.countries.find({}, {'name': 1, '_id': 0})]
+
+def reset_played():
+    db.countries.update_many({}, {'$set': {'played': False}})
+
+def count_all_countries():
+    return db.countries.count_documents({})
